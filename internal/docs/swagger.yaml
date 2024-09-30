@@ -1,0 +1,194 @@
+definitions:
+  domain.Credentials:
+    properties:
+      clientId:
+        type: string
+      clientSecret:
+        type: string
+    type: object
+  domain.IoTApplication:
+    properties:
+      credentials:
+        $ref: '#/definitions/domain.Credentials'
+      id:
+        type: string
+      name:
+        type: string
+      userId:
+        type: string
+    type: object
+  restv1.ApplicationRequest:
+    properties:
+      applicationName:
+        type: string
+    type: object
+  restv1.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/applications:
+    get:
+      parameters:
+      - description: user Id
+        example: 6c6ca355-8a69-475a-b8b1-16648ea4fb0a
+        in: header
+        name: x-amzn-oidc-identity
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.IoTApplication'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/restv1.ErrorResponse'
+      tags:
+      - Server
+    post:
+      parameters:
+      - description: user Id
+        example: 6c6ca355-8a69-475a-b8b1-16648ea4fb0a
+        in: header
+        name: x-amzn-oidc-identity
+        required: true
+        type: string
+      - description: '{ '
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/restv1.ApplicationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.IoTApplication'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/restv1.ErrorResponse'
+      tags:
+      - Server
+  /v1/applications/{id}:
+    delete:
+      parameters:
+      - description: user Id
+        example: 6c6ca355-8a69-475a-b8b1-16648ea4fb0a
+        in: header
+        name: x-amzn-oidc-identity
+        required: true
+        type: string
+      - description: Application Id
+        example: 6c6ca355-8a69-475a-b8b1-16648ea4fb0a
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/restv1.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/restv1.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/restv1.ErrorResponse'
+      tags:
+      - Server
+    get:
+      parameters:
+      - description: user Id
+        example: 6c6ca355-8a69-475a-b8b1-16648ea4fb0a
+        in: header
+        name: x-amzn-oidc-identity
+        required: true
+        type: string
+      - description: Application Id
+        example: 6c6ca355-8a69-475a-b8b1-16648ea4fb0a
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.IoTApplication'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/restv1.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/restv1.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/restv1.ErrorResponse'
+      tags:
+      - Server
+    post:
+      parameters:
+      - description: user Id
+        example: 6c6ca355-8a69-475a-b8b1-16648ea4fb0a
+        in: header
+        name: x-amzn-oidc-identity
+        required: true
+        type: string
+      - description: '{ '
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/restv1.ApplicationRequest'
+      - description: Application Id
+        example: 6c6ca355-8a69-475a-b8b1-16648ea4fb0a
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.IoTApplication'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/restv1.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/restv1.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/restv1.ErrorResponse'
+      tags:
+      - Server
+swagger: "2.0"
